@@ -65,94 +65,66 @@ const HEALTH_TIPS = [
 const PRODUCTS = [
   {
     id: 1,
-    name: "Produtos Naturais a Granel",
-    price: "A partir de R$ 5,00",
-    image: "/images/store/loja-2.jpg",
-    tag: "Granel"
+    name: "Creatina Hardcore",
+    price: "R$ 89,00",
+    image: "https://i.imgur.com/ky26Rsu.jpg",
+    tag: "Performance"
   },
   {
     id: 2,
-    name: "Suplementos & Vitaminas",
-    price: "A partir de R$ 35,00",
-    image: "/images/store/loja-1.jpg",
-    tag: "Saúde"
+    name: "Goiabada Zero — 100% Natural",
+    price: "R$ 12,90",
+    image: "https://i.imgur.com/6Dqb5ak.jpg",
+    tag: "Zero Açúcar"
   },
   {
     id: 3,
-    name: "Granola & Cereais",
-    price: "A partir de R$ 12,00",
-    image: "/images/store/loja-4.jpg",
-    tag: "Natural"
+    name: "Paçoquinha Zero Açúcar",
+    price: "R$ 9,90",
+    image: "https://i.imgur.com/Apb6A6O.jpg",
+    tag: "Zero Açúcar"
   },
   {
     id: 4,
-    name: "Chás & Ervas Medicinais",
-    price: "A partir de R$ 8,00",
-    image: "/images/store/loja-5.jpg",
-    tag: "Detox"
-  },
-  {
-    id: 5,
-    name: "Multivitamínico",
-    price: "R$ 54,90",
-    image: "https://i.imgur.com/ky26Rsu.jpg",
-    tag: "Imunidade"
-  },
-  {
-    id: 6,
-    name: "Creatina Monohidratada",
-    price: "R$ 89,00",
-    image: "https://i.imgur.com/6Dqb5ak.jpg",
-    tag: "Força"
-  },
-  {
-    id: 7,
-    name: "Óleo de Coco Extra Virgem",
-    price: "R$ 42,00",
-    image: "https://i.imgur.com/Apb6A6O.jpg",
-    tag: "Culinária"
-  },
-  {
-    id: 8,
-    name: "DermaSkin Ultra — Linha Completa",
+    name: "DermaSkin Ultra",
     price: "R$ 99,90",
     image: "https://i.imgur.com/GJSNiwB.jpg",
     tag: "Colágeno"
   },
   {
-    id: 9,
-    name: "DermaSkin Ultra — Sabores",
-    price: "R$ 99,90",
+    id: 5,
+    name: "Sementes a Granel",
+    price: "A partir de R$ 8,00",
     image: "https://i.imgur.com/zCMJlqc.jpg",
+    tag: "Natural"
+  },
+  {
+    id: 6,
+    name: "DermaSkin — Sachês",
+    price: "R$ 49,90",
+    image: "https://i.imgur.com/oXNynow.jpg",
+    tag: "DermaSkin"
+  },
+  {
+    id: 7,
+    name: "Magrosin Emagrecedor",
+    price: "R$ 89,90",
+    image: "https://i.imgur.com/eyOQIsw.jpg",
+    tag: "Emagrecedor"
+  },
+  {
+    id: 8,
+    name: "DermaSkin Ultra — Beauty",
+    price: "R$ 99,90",
+    image: "https://i.imgur.com/4ChPRGL.jpg",
     tag: "Beleza"
   },
   {
-    id: 10,
-    name: "DermaSkin Ultra",
+    id: 9,
+    name: "DermaSkin — Linha Completa",
     price: "R$ 99,90",
-    image: "https://i.imgur.com/oXNynow.jpg",
-    tag: "Colágeno"
-  },
-  {
-    id: 11,
-    name: "Semente de Chia",
-    price: "R$ 12,90",
-    image: "https://i.imgur.com/eyOQIsw.jpg",
-    tag: "Fibras"
-  },
-  {
-    id: 12,
-    name: "DermaSkin — Loja VittaCeres",
-    price: "R$ 99,90",
-    image: "https://i.imgur.com/4ChPRGL.jpg",
-    tag: "Suplementos"
-  },
-  {
-    id: 13,
-    name: "Paçoquinha Zero Açúcar",
-    price: "R$ 9,90",
     image: "https://i.imgur.com/KHszltV.jpg",
-    tag: "Zero Açúcar"
+    tag: "Suplementos"
   }
 ];
 
@@ -493,16 +465,18 @@ export default function App() {
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-vitta-lime rounded-full translate-x-1/2 translate-y-1/2 blur-[100px]" />
           </div>
           
-          <h2 className="text-4xl lg:text-6xl font-bold mb-10">Pronto para transformar sua saúde?</h2>
+          <h2 className="text-4xl lg:text-6xl font-bold mb-10">Conheça nossa Loja Virtual</h2>
           <p className="text-vitta-cream/70 text-xl mb-14 max-w-2xl mx-auto leading-relaxed">
-            Peça agora pelo WhatsApp e receba em casa com toda comodidade. Atendimento personalizado para tirar todas as suas dúvidas.
+            Produtos naturais, suplementos e muito mais. Compre online com entrega em casa ou retire na loja em Ceres.
           </p>
-          <a 
-            href={WHATSAPP_LINK} 
+          <a
+            href={LOJA_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
             className="vitta-button bg-vitta-lime text-vitta-dark hover:bg-white inline-flex items-center gap-4 text-xl px-10 py-5"
           >
-            <Phone className="w-7 h-7" />
-            CHAMAR NO WHATSAPP
+            <ShoppingBag className="w-7 h-7" />
+            ACESSAR LOJA VIRTUAL
           </a>
         </div>
       </section>
@@ -622,10 +596,10 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-16 mb-20">
             <div className="col-span-2">
-              <img 
-                src={LOGO_URL} 
-                alt="Vitta Ceres Logo" 
-                className="h-20 mb-8 brightness-0 invert"
+              <img
+                src={LOGO_URL}
+                alt="Vitta Ceres Logo"
+                className="h-20 mb-8"
                 referrerPolicy="no-referrer"
               />
               <p className="text-gray-400 max-w-sm text-lg leading-relaxed">
