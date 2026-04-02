@@ -182,7 +182,7 @@ function StorePage({ onBack }: { onBack: () => void }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {PRODUCTS.map((product) => (
-              <motion.div key={product.id} whileHover={{ y: -6 }} className="vitta-card group">
+              <div key={product.id} className="vitta-card group hover:-translate-y-1.5 transition-transform duration-300">
                 <div className="relative h-52 overflow-hidden">
                   <img src={product.image} alt={product.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
@@ -200,7 +200,7 @@ function StorePage({ onBack }: { onBack: () => void }) {
                     <Phone className="w-4 h-4" /> PEDIR
                   </a>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
