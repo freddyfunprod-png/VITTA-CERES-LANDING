@@ -25,7 +25,7 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const WHATSAPP_NUMBER = "5562996161000";
+const WHATSAPP_NUMBER = "5548999595099";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 const LOJA_LINK = "https://vittaceres.com.br"; // Placeholder for the actual store link
 const LOGO_URL = "/images/logo.png";
@@ -268,7 +268,7 @@ export default function App() {
                 </a>
               ))}
               <button
-                onClick={() => setShowLoja(true)}
+                onClick={() => { setShowLoja(true); window.scrollTo(0,0); }}
                 className="vitta-button vitta-button-primary py-2 px-6 text-sm flex items-center gap-2"
               >
                 <ShoppingBag className="w-4 h-4" />
@@ -306,12 +306,19 @@ export default function App() {
                     {item}
                   </a>
                 ))}
-                <a 
-                  href={WHATSAPP_LINK}
+                <button
+                  onClick={() => { setIsMenuOpen(false); setShowLoja(true); window.scrollTo(0,0); }}
                   className="vitta-button vitta-button-primary w-full flex justify-center items-center gap-2"
                 >
                   <ShoppingBag className="w-5 h-5" />
-                  PEDIR NO WHATSAPP
+                  LOJA VIRTUAL
+                </button>
+                <a
+                  href={WHATSAPP_LINK}
+                  className="vitta-button vitta-button-secondary w-full flex justify-center items-center gap-2"
+                >
+                  <Phone className="w-5 h-5" />
+                  WHATSAPP
                 </a>
               </div>
             </motion.div>
@@ -541,7 +548,7 @@ export default function App() {
             Produtos naturais, suplementos e muito mais. Compre online com entrega em casa ou retire na loja em Ceres.
           </p>
           <button
-            onClick={() => setShowLoja(true)}
+            onClick={() => { setShowLoja(true); window.scrollTo(0,0); }}
             className="vitta-button bg-vitta-lime text-vitta-dark hover:bg-white inline-flex items-center gap-4 text-xl px-10 py-5"
           >
             <ShoppingBag className="w-7 h-7" />
