@@ -28,17 +28,17 @@ function cn(...inputs: ClassValue[]) {
 const WHATSAPP_NUMBER = "5562996161000";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 const LOJA_LINK = "https://vittaceres.com.br"; // Placeholder for the actual store link
-const LOGO_URL = "https://ais-pre-35tejyrdkpqkryyuhtmfk7-336620180101.us-east1.run.app/api/attachments/AIs-Dev-35tejyrdkpqkryyuhtmfk7-336620180101.us-east1.run.app/2026-04-01T19:39:39.953Z/logo.png";
+const LOGO_URL = "/images/logo.png";
 
 const STORE_PHOTOS = [
+  "/images/store/loja-1.jpg",
+  "/images/store/loja-2.jpg",
+  "/images/store/loja-3.jpg",
+  "/images/store/loja-4.jpg",
+  "/images/store/loja-5.jpg",
   "https://i.imgur.com/DexFX6G.jpg",
   "https://i.imgur.com/7QJzjmd.jpg",
   "https://i.imgur.com/RB8Ljtw.jpg",
-  "https://i.imgur.com/KaWrJoe.jpg",
-  "https://i.imgur.com/2A0seVK.jpg",
-  "https://i.imgur.com/wyAE4MI.jpg",
-  "https://i.imgur.com/Qzui7Fo.jpg",
-  "https://i.imgur.com/EokTz5j.jpg"
 ];
 
 const HEALTH_TIPS = [
@@ -65,35 +65,35 @@ const HEALTH_TIPS = [
 const PRODUCTS = [
   {
     id: 1,
-    name: "Mel de Abelha Puro",
-    price: "R$ 45,90",
-    image: "https://i.imgur.com/dE8Qhsj.jpg",
-    tag: "100% Natural"
+    name: "Produtos Naturais a Granel",
+    price: "A partir de R$ 5,00",
+    image: "/images/store/loja-2.jpg",
+    tag: "Granel"
   },
   {
     id: 2,
-    name: "Whey Protein Isolado",
-    price: "R$ 149,00",
-    image: "https://i.imgur.com/T77zOQE.jpg",
-    tag: "Performance"
+    name: "Suplementos & Vitaminas",
+    price: "A partir de R$ 35,00",
+    image: "/images/store/loja-1.jpg",
+    tag: "Saúde"
   },
   {
     id: 3,
-    name: "Mix de Castanhas Premium",
-    price: "R$ 32,50",
-    image: "https://i.imgur.com/p3yMzyO.jpg",
-    tag: "Saudável"
+    name: "Granola & Cereais",
+    price: "A partir de R$ 12,00",
+    image: "/images/store/loja-4.jpg",
+    tag: "Natural"
   },
   {
     id: 4,
-    name: "Chá Verde Orgânico",
-    price: "R$ 18,50",
-    image: "https://i.imgur.com/ycORDl5.jpg",
+    name: "Chás & Ervas Medicinais",
+    price: "A partir de R$ 8,00",
+    image: "/images/store/loja-5.jpg",
     tag: "Detox"
   },
   {
     id: 5,
-    name: "Multivitamínico A-Z",
+    name: "Multivitamínico",
     price: "R$ 54,90",
     image: "https://i.imgur.com/ky26Rsu.jpg",
     tag: "Imunidade"
@@ -114,24 +114,24 @@ const PRODUCTS = [
   },
   {
     id: 8,
-    name: "Barra de Proteína",
-    price: "R$ 9,90",
+    name: "DermaSkin Ultra — Linha Completa",
+    price: "R$ 99,90",
     image: "https://i.imgur.com/GJSNiwB.jpg",
-    tag: "Snack"
+    tag: "Colágeno"
   },
   {
     id: 9,
-    name: "BCAA 2:1:1 Powder",
-    price: "R$ 75,00",
+    name: "DermaSkin Ultra — Sabores",
+    price: "R$ 99,90",
     image: "https://i.imgur.com/zCMJlqc.jpg",
-    tag: "Recuperação"
+    tag: "Beleza"
   },
   {
     id: 10,
-    name: "Colágeno Verisol",
-    price: "R$ 98,00",
+    name: "DermaSkin Ultra",
+    price: "R$ 99,90",
     image: "https://i.imgur.com/oXNynow.jpg",
-    tag: "Beleza"
+    tag: "Colágeno"
   },
   {
     id: 11,
@@ -142,17 +142,17 @@ const PRODUCTS = [
   },
   {
     id: 12,
-    name: "Vinagre de Maçã Orgânico",
-    price: "R$ 24,00",
+    name: "DermaSkin — Loja VittaCeres",
+    price: "R$ 99,90",
     image: "https://i.imgur.com/4ChPRGL.jpg",
-    tag: "Saúde"
+    tag: "Suplementos"
   },
   {
     id: 13,
-    name: "Pasta de Amendoim Integral",
-    price: "R$ 28,50",
+    name: "Paçoquinha Zero Açúcar",
+    price: "R$ 9,90",
     image: "https://i.imgur.com/KHszltV.jpg",
-    tag: "Energia"
+    tag: "Zero Açúcar"
   }
 ];
 
