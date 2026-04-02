@@ -217,12 +217,12 @@ function StorePage({ onBack }: { onBack: () => void }) {
 }
 
 export default function App() {
-  const [page, setPage] = useState<'landing' | 'loja'>('landing');
+  const [showLoja, setShowLoja] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
 
-  if (page === 'loja') return <StorePage onBack={() => setPage('landing')} />;
+  if (showLoja) return <StorePage onBack={() => setShowLoja(false)} />;
 
   const nextGallery = () => {
     setGalleryIndex((prev) => (prev + 1) % STORE_PHOTOS.length);
@@ -268,7 +268,7 @@ export default function App() {
                 </a>
               ))}
               <button
-                onClick={() => setPage('loja')}
+                onClick={() => setShowLoja(true)}
                 className="vitta-button vitta-button-primary py-2 px-6 text-sm flex items-center gap-2"
               >
                 <ShoppingBag className="w-4 h-4" />
@@ -416,7 +416,7 @@ export default function App() {
               transition={{ duration: 25, ease: "linear", repeat: Infinity }}
               className="flex flex-nowrap gap-8"
             >
-              {[...PRODUCTS.slice(0, 7), ...PRODUCTS.slice(0, 7)].map((product, idx) => (
+              {[...PRODUCTS, ...PRODUCTS].map((product, idx) => (
                 <div key={idx} className="flex-shrink-0 w-80 vitta-card group">
                   <div className="relative h-64 overflow-hidden">
                     <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
@@ -442,10 +442,10 @@ export default function App() {
           <div className="flex overflow-hidden select-none gap-8">
             <motion.div
               animate={{ x: ["-50%", "0%"] }}
-              transition={{ duration: 22, ease: "linear", repeat: Infinity }}
+              transition={{ duration: 25, ease: "linear", repeat: Infinity }}
               className="flex flex-nowrap gap-8"
             >
-              {[...PRODUCTS.slice(7), ...PRODUCTS.slice(7)].map((product, idx) => (
+              {[...PRODUCTS.slice().reverse(), ...PRODUCTS.slice().reverse()].map((product, idx) => (
                 <div key={idx} className="flex-shrink-0 w-80 vitta-card group">
                   <div className="relative h-64 overflow-hidden">
                     <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
@@ -541,7 +541,7 @@ export default function App() {
             Produtos naturais, suplementos e muito mais. Compre online com entrega em casa ou retire na loja em Ceres.
           </p>
           <button
-            onClick={() => setPage('loja')}
+            onClick={() => setShowLoja(true)}
             className="vitta-button bg-vitta-lime text-vitta-dark hover:bg-white inline-flex items-center gap-4 text-xl px-10 py-5"
           >
             <ShoppingBag className="w-7 h-7" />
