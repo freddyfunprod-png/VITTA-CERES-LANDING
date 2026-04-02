@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", serif;
+  
+  --color-vitta-lime: #8DC63F;
+  --color-vitta-dark: #2B3014;
+  --color-vitta-cream: #FDFBF7;
+  --color-vitta-earth: #D4A373;
+}
+
+@layer base {
+  body {
+    @apply bg-vitta-cream text-vitta-dark font-sans antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display text-vitta-dark;
+  }
+}
+
+.glass-nav {
+  @apply sticky top-0 z-50 bg-vitta-cream/90 backdrop-blur-md border-b border-vitta-lime/20;
+}
+
+.vitta-button {
+  @apply px-6 py-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg;
+}
+
+.vitta-button-primary {
+  @apply bg-vitta-lime text-vitta-dark hover:bg-vitta-dark hover:text-white;
+}
+
+.vitta-button-secondary {
+  @apply bg-vitta-dark text-white hover:bg-vitta-lime hover:text-vitta-dark;
+}
+
+.vitta-card {
+  @apply bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-vitta-lime/10;
+}
