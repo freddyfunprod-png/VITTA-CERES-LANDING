@@ -18,6 +18,7 @@ import {
   Zap
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import StorePage from './StorePage';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -146,81 +147,18 @@ const FEATURES = [
   }
 ];
 
-function StorePage({ onBack }: { onBack: () => void }) {
-  return (
-    <div className="min-h-screen bg-vitta-cream">
-      {/* Navbar */}
-      <nav className="sticky top-0 z-50 bg-vitta-cream/95 backdrop-blur-md border-b border-vitta-lime/20 py-3">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <button onClick={onBack} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <img src={LOGO_URL} alt="Vitta Ceres" className="h-12" />
-          </button>
-          <div className="flex items-center gap-4">
-            <button onClick={onBack} className="text-sm font-bold uppercase tracking-wider hover:text-vitta-lime transition-colors flex items-center gap-1">
-              <ChevronLeft className="w-4 h-4" /> Voltar
-            </button>
-            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
-              className="vitta-button vitta-button-primary py-2 px-5 text-sm flex items-center gap-2">
-              <Phone className="w-4 h-4" /> WHATSAPP
-            </a>
-          </div>
-        </div>
-      </nav>
-
-      {/* Header */}
-      <section className="bg-vitta-dark text-white py-16 text-center">
-        <h1 className="text-5xl lg:text-6xl font-bold text-white mb-4">
-          Nossa <span className="text-vitta-lime">Loja Virtual</span>
-        </h1>
-        <p className="text-vitta-cream/70 text-lg max-w-xl mx-auto">
-          Produtos naturais, suplementos e muito mais. Entregamos em Ceres e região.
-        </p>
-      </section>
-
-      {/* Products Grid */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {PRODUCTS.map((product) => (
-              <div key={product.id} className="vitta-card group hover:-translate-y-1.5 transition-transform duration-300">
-                <div className="relative h-52 overflow-hidden">
-                  <img src={product.image} alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    referrerPolicy="no-referrer" />
-                  <div className="absolute top-3 left-3 bg-vitta-lime text-vitta-dark px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow">
-                    {product.tag}
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-bold text-base mb-1 leading-tight">{product.name}</h3>
-                  <p className="text-vitta-dark font-black text-lg mb-4">{product.price}</p>
-                  <a href={`${WHATSAPP_LINK}?text=Olá! Tenho interesse no produto: ${encodeURIComponent(product.name)}`}
-                    target="_blank" rel="noopener noreferrer"
-                    className="w-full vitta-button vitta-button-secondary py-2 text-sm flex items-center justify-center gap-2">
-                    <Phone className="w-4 h-4" /> PEDIR
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Footer simple */}
-      <footer className="bg-vitta-dark text-white py-10 text-center">
-        <img src={LOGO_URL} alt="Vitta Ceres" className="h-14 mx-auto mb-4" />
-        <p className="text-gray-400 text-sm">Av. Bernardo Sayão, 100 — Ceres, GO &nbsp;|&nbsp; (62) 99616-1000</p>
-        <p className="text-gray-500 text-xs mt-3">© {new Date().getFullYear()} Vitta Ceres. Todos os direitos reservados.</p>
-      </footer>
-    </div>
-  );
-}
 
 export default function App() {
   const [showLoja, setShowLoja] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   if (showLoja) return <StorePage onBack={() => setShowLoja(false)} />;
 
@@ -231,12 +169,6 @@ export default function App() {
   const prevGallery = () => {
     setGalleryIndex((prev) => (prev - 1 + STORE_PHOTOS.length) % STORE_PHOTOS.length);
   };
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
     <div className="min-h-screen">
