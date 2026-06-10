@@ -1,21 +1,22 @@
-import { useState, useEffect } from 'react';
-import { 
-  ShoppingBag, 
-  Leaf, 
-  Heart, 
-  MapPin, 
-  Phone, 
-  Instagram, 
-  Facebook, 
-  ChevronRight, 
+import { useState, useEffect, useRef, Fragment, type ReactNode, type CSSProperties } from 'react';
+import {
+  ShoppingBag,
+  Leaf,
+  Heart,
+  MapPin,
+  Phone,
+  Instagram,
+  Facebook,
+  ChevronRight,
   ChevronLeft,
-  Star, 
+  Star,
   CheckCircle2,
   Menu,
   X,
   ArrowRight,
   ShieldCheck,
-  Zap
+  Zap,
+  Play
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import StorePage from './StorePage';
@@ -30,6 +31,40 @@ const WHATSAPP_NUMBER = "5548999595099";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 const LOJA_LINK = "https://vittaceres.com.br"; // Placeholder for the actual store link
 const LOGO_URL = "/images/logo.png";
+const INSTAGRAM_URL = "https://www.instagram.com/vitta_ceres/";
+const FACEBOOK_URL = "https://www.facebook.com/vittaceres/";
+const PHONE_DISPLAY = "(48) 99959-5099";
+const ADDRESS_LINE_1 = "Rod. José Carlos Daux, 9580 — Loja 111";
+const ADDRESS_LINE_2 = "Fort Atacadista · Santo Antônio de Lisboa, Florianópolis - SC";
+const MAP_EMBED_URL = "https://maps.google.com/maps?q=Fort%20Atacadista%2C%20Rod.%20Jos%C3%A9%20Carlos%20Daux%2C%209580%2C%20Santo%20Ant%C3%B4nio%20de%20Lisboa%2C%20Florian%C3%B3polis&t=&z=16&ie=UTF8&iwloc=&output=embed";
+
+const VIDEOS = [
+  {
+    src: "/videos/video-temperos.mp4",
+    poster: "/videos/poster-temperos.jpg",
+    title: "5 temperos indispensáveis na cozinha"
+  },
+  {
+    src: "/videos/video-shot-imunidade.mp4",
+    poster: "/videos/poster-shot-imunidade.jpg",
+    title: "Shot matinal para blindar a imunidade"
+  },
+  {
+    src: "/videos/video-suplementacao.mp4",
+    poster: "/videos/poster-suplementacao.jpg",
+    title: "Suplementação para preservar massa magra"
+  },
+  {
+    src: "/videos/video-chia.mp4",
+    poster: "/videos/poster-chia.jpg",
+    title: "Chia: o segredo para um intestino feliz"
+  },
+  {
+    src: "/videos/video-maracuja.mp4",
+    poster: "/videos/poster-maracuja.jpg",
+    title: "Farinha de maracujá no dia a dia"
+  }
+];
 
 const STORE_PHOTOS = [
   "/images/store/loja-1.jpg",
@@ -148,6 +183,142 @@ const FEATURES = [
 ];
 
 
+function Marquee({ children, duration = 25, reverse = false, gapClass = 'gap-8' }: {
+  children: ReactNode;
+  duration?: number;
+  reverse?: boolean;
+  gapClass?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const obs = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className="flex overflow-hidden select-none">
+      <div
+        className={cn('marquee-track', gapClass, reverse && 'marquee-reverse', !visible && 'marquee-paused')}
+        style={{ '--marquee-duration': `${duration}s` } as CSSProperties}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function VideoCard({ video, isActive, onPlay }: { video: typeof VIDEOS[number]; isActive: boolean; onPlay: () => void }) {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (!isActive && ref.current && !ref.current.paused) {
+      ref.current.pause();
+    }
+  }, [isActive]);
+
+  const toggle = () => {
+    const el = ref.current;
+    if (!el) return;
+    if (el.paused) {
+      onPlay();
+      el.play();
+    } else {
+      el.pause();
+    }
+  };
+
+  return (
+    <div className="flex-shrink-0 w-64 md:w-72 snap-center">
+      <div
+        className="relative aspect-[9/16] rounded-[32px] overflow-hidden shadow-xl border-4 border-vitta-cream hover:border-vitta-lime transition-all cursor-pointer group bg-vitta-dark"
+        onClick={toggle}
+      >
+        <video
+          ref={ref}
+          src={video.src}
+          poster={video.poster}
+          preload="none"
+          playsInline
+          className="w-full h-full object-cover"
+          onEnded={() => ref.current?.load()}
+        />
+        {!isActive && (
+          <div className="absolute inset-0 flex items-center justify-center bg-vitta-dark/20 group-hover:bg-vitta-dark/40 transition-all">
+            <div className="w-16 h-16 bg-vitta-lime text-vitta-dark rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+              <Play className="w-7 h-7 ml-1" fill="currentColor" />
+            </div>
+          </div>
+        )}
+      </div>
+      <p className="mt-4 text-center font-bold text-vitta-dark px-2 leading-snug">{video.title}</p>
+    </div>
+  );
+}
+
+function VideoCarousel() {
+  const [activeIdx, setActiveIdx] = useState<number | null>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  const scrollBy = (dir: number) => {
+    scrollerRef.current?.scrollBy({ left: dir * 320, behavior: 'smooth' });
+  };
+
+  return (
+    <section id="conselhos" className="py-24 bg-vitta-cream/30 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <div className="text-center">
+          <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-vitta-lime/10 text-vitta-dark text-sm font-black uppercase tracking-[0.2em] mb-6 border border-vitta-lime/20">
+            <Heart className="w-5 h-5" />
+            Direto da nossa loja
+          </div>
+          <h2 className="text-5xl font-bold mb-6">Conselhos de <span className="text-vitta-lime">Vida Saudável</span></h2>
+          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+            Dicas práticas gravadas aqui na Vitta Ceres para você cuidar da sua saúde todos os dias. Dê o play e aproveite!
+          </p>
+        </div>
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          ref={scrollerRef}
+          className="flex gap-8 overflow-x-auto snap-x snap-mandatory pb-6"
+          style={{ scrollbarWidth: 'none' }}
+        >
+          {VIDEOS.map((video, idx) => (
+            <Fragment key={video.src}>
+              <VideoCard
+                video={video}
+                isActive={activeIdx === idx}
+                onPlay={() => setActiveIdx(idx)}
+              />
+            </Fragment>
+          ))}
+        </div>
+
+        <div className="flex justify-center gap-4 mt-4">
+          <button
+            onClick={() => scrollBy(-1)}
+            className="w-12 h-12 bg-white text-vitta-dark rounded-full flex items-center justify-center shadow-lg hover:bg-vitta-lime transition-colors border border-vitta-lime/20"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button
+            onClick={() => scrollBy(1)}
+            className="w-12 h-12 bg-white text-vitta-dark rounded-full flex items-center justify-center shadow-lg hover:bg-vitta-lime transition-colors border border-vitta-lime/20"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function App() {
   const [showLoja, setShowLoja] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -259,7 +430,7 @@ export default function App() {
       </nav>
 
       {/* Hero Section */}
-      <section id="início" className="relative pt-32 pb-40 overflow-hidden bg-vitta-dark text-white">
+      <section id="início" className="relative pt-24 pb-20 overflow-hidden bg-vitta-dark text-white">
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
           <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-vitta-lime rounded-full translate-x-1/3 -translate-y-1/3 blur-[150px]" />
           <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-vitta-lime rounded-full -translate-x-1/3 translate-y-1/3 blur-[120px]" />
@@ -271,12 +442,12 @@ export default function App() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="mb-12"
+              className="mb-8"
             >
-              <img 
-                src={LOGO_URL} 
-                alt="Vitta Ceres Logo" 
-                className="h-48 md:h-64 drop-shadow-[0_0_30px_rgba(141,198,63,0.3)]"
+              <img
+                src={LOGO_URL}
+                alt="Vitta Ceres Logo"
+                className="h-20 md:h-28 drop-shadow-[0_0_30px_rgba(141,198,63,0.3)]"
                 referrerPolicy="no-referrer"
               />
             </motion.div>
@@ -287,15 +458,15 @@ export default function App() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="max-w-3xl"
             >
-              <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-vitta-lime/10 text-vitta-lime text-sm font-black uppercase tracking-[0.2em] mb-8 border border-vitta-lime/20">
+              <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-vitta-lime/10 text-vitta-lime text-sm font-black uppercase tracking-[0.2em] mb-6 border border-vitta-lime/20">
                 <Leaf className="w-5 h-5" />
                 Sua saúde em primeiro lugar
               </div>
-              <h1 className="text-6xl lg:text-8xl font-bold leading-tight mb-8 tracking-tighter text-white">
+              <h1 className="text-5xl lg:text-7xl font-bold leading-tight mb-6 tracking-tighter text-white">
                 Equilíbrio <span className="text-vitta-lime">Natural</span>
               </h1>
-              <p className="text-xl text-vitta-cream/70 mb-12 max-w-2xl mx-auto leading-relaxed">
-                Descubra o poder da natureza com nossa seleção exclusiva de produtos orgânicos, suplementos e alimentos saudáveis em Ceres.
+              <p className="text-lg md:text-xl text-vitta-cream/70 mb-8 max-w-2xl mx-auto leading-relaxed">
+                Descubra o poder da natureza com nossa seleção exclusiva de produtos orgânicos, suplementos e alimentos saudáveis em Florianópolis.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <a href="#produtos" className="vitta-button bg-vitta-lime text-vitta-dark hover:bg-white flex items-center justify-center gap-3 px-10 py-5 text-lg">
@@ -349,16 +520,11 @@ export default function App() {
 
         <div className="space-y-12">
           {/* Row 1 */}
-          <div className="flex overflow-hidden select-none gap-8">
-            <motion.div
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ duration: 25, ease: "linear", repeat: Infinity }}
-              className="flex flex-nowrap gap-8"
-            >
+          <Marquee duration={25} gapClass="gap-8">
               {[...PRODUCTS, ...PRODUCTS].map((product, idx) => (
                 <div key={idx} className="flex-shrink-0 w-80 vitta-card group">
                   <div className="relative h-64 overflow-hidden">
-                    <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
+                    <img src={product.image} alt={product.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
                     <div className="absolute top-4 left-4 bg-vitta-lime text-vitta-dark px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
                       {product.tag}
                     </div>
@@ -374,20 +540,14 @@ export default function App() {
                   </div>
                 </div>
               ))}
-            </motion.div>
-          </div>
+          </Marquee>
 
           {/* Row 2 */}
-          <div className="flex overflow-hidden select-none gap-8">
-            <motion.div
-              animate={{ x: ["-50%", "0%"] }}
-              transition={{ duration: 25, ease: "linear", repeat: Infinity }}
-              className="flex flex-nowrap gap-8"
-            >
+          <Marquee duration={25} reverse gapClass="gap-8">
               {[...PRODUCTS.slice().reverse(), ...PRODUCTS.slice().reverse()].map((product, idx) => (
                 <div key={idx} className="flex-shrink-0 w-80 vitta-card group">
                   <div className="relative h-64 overflow-hidden">
-                    <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
+                    <img src={product.image} alt={product.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
                     <div className="absolute top-4 left-4 bg-vitta-lime text-vitta-dark px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
                       {product.tag}
                     </div>
@@ -403,8 +563,7 @@ export default function App() {
                   </div>
                 </div>
               ))}
-            </motion.div>
-          </div>
+          </Marquee>
         </div>
       </section>
 
@@ -421,51 +580,36 @@ export default function App() {
 
         <div className="space-y-8">
           {/* Row 1 */}
-          <div className="flex overflow-hidden select-none gap-6">
-            <motion.div
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ duration: 20, ease: "linear", repeat: Infinity }}
-              className="flex flex-nowrap gap-6"
-            >
+          <Marquee duration={20} gapClass="gap-6">
               {[...HEALTH_TIPS.slice(0, 6), ...HEALTH_TIPS.slice(0, 6)].map((tip, idx) => (
                 <div key={idx} className="flex-shrink-0 w-72 md:w-96 rounded-[32px] overflow-hidden shadow-xl border-4 border-vitta-cream hover:border-vitta-lime transition-all group">
-                  <img src={tip} alt="Dica" className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105" referrerPolicy="no-referrer" />
+                  <img src={tip} alt="Dica" loading="lazy" className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105" referrerPolicy="no-referrer" />
                 </div>
               ))}
-            </motion.div>
-          </div>
+          </Marquee>
 
           {/* Row 2 */}
-          <div className="flex overflow-hidden select-none gap-6">
-            <motion.div
-              animate={{ x: ["-50%", "0%"] }}
-              transition={{ duration: 18, ease: "linear", repeat: Infinity }}
-              className="flex flex-nowrap gap-6"
-            >
+          <Marquee duration={18} reverse gapClass="gap-6">
               {[...HEALTH_TIPS.slice(6, 12), ...HEALTH_TIPS.slice(6, 12)].map((tip, idx) => (
                 <div key={idx} className="flex-shrink-0 w-72 md:w-96 rounded-[32px] overflow-hidden shadow-xl border-4 border-vitta-cream hover:border-vitta-lime transition-all group">
-                  <img src={tip} alt="Dica" className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105" referrerPolicy="no-referrer" />
+                  <img src={tip} alt="Dica" loading="lazy" className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105" referrerPolicy="no-referrer" />
                 </div>
               ))}
-            </motion.div>
-          </div>
+          </Marquee>
 
           {/* Row 3 */}
-          <div className="flex overflow-hidden select-none gap-6">
-            <motion.div
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ duration: 22, ease: "linear", repeat: Infinity }}
-              className="flex flex-nowrap gap-6"
-            >
+          <Marquee duration={22} gapClass="gap-6">
               {[...HEALTH_TIPS.slice(12, 18), ...HEALTH_TIPS.slice(12, 18)].map((tip, idx) => (
                 <div key={idx} className="flex-shrink-0 w-72 md:w-96 rounded-[32px] overflow-hidden shadow-xl border-4 border-vitta-cream hover:border-vitta-lime transition-all group">
-                  <img src={tip} alt="Dica" className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105" referrerPolicy="no-referrer" />
+                  <img src={tip} alt="Dica" loading="lazy" className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105" referrerPolicy="no-referrer" />
                 </div>
               ))}
-            </motion.div>
-          </div>
+          </Marquee>
         </div>
       </section>
+
+      {/* Conselhos de Vida Saudável — vídeos */}
+      <VideoCarousel />
 
       {/* CTA Section */}
       <section className="py-24 px-4">
@@ -477,7 +621,7 @@ export default function App() {
           
           <h2 className="text-4xl lg:text-6xl font-bold mb-10">Conheça nossa Loja Virtual</h2>
           <p className="text-vitta-cream/70 text-xl mb-14 max-w-2xl mx-auto leading-relaxed">
-            Produtos naturais, suplementos e muito mais. Compre online com entrega em casa ou retire na loja em Ceres.
+            Produtos naturais, suplementos e muito mais. Compre online com entrega em casa ou retire na loja em Santo Antônio de Lisboa.
           </p>
           <button
             onClick={() => { setShowLoja(true); window.scrollTo(0,0); }}
@@ -495,7 +639,7 @@ export default function App() {
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold mb-6">Conheça nossa <span className="text-vitta-lime">Loja</span></h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-              Um ambiente preparado com carinho para oferecer o melhor em saúde e bem-estar em Ceres.
+              Um ambiente preparado com carinho para oferecer o melhor em saúde e bem-estar em Florianópolis.
             </p>
           </div>
           
@@ -561,7 +705,7 @@ export default function App() {
                   </div>
                   <div>
                     <p className="font-black text-xl uppercase tracking-widest text-vitta-dark mb-1">Endereço</p>
-                    <p className="text-gray-600 text-lg">Av. Bernardo Sayão, 100 - Centro<br />Ceres - GO, 76300-000</p>
+                    <p className="text-gray-600 text-lg">{ADDRESS_LINE_1}<br />{ADDRESS_LINE_2}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-6">
@@ -570,14 +714,14 @@ export default function App() {
                   </div>
                   <div>
                     <p className="font-black text-xl uppercase tracking-widest text-vitta-dark mb-1">Telefone & WhatsApp</p>
-                    <p className="text-gray-600 text-lg">(62) 99616-1000</p>
+                    <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="text-gray-600 text-lg hover:text-vitta-lime transition-colors">{PHONE_DISPLAY}</a>
                   </div>
                 </div>
                 <div className="flex gap-5 pt-6">
-                  <a href="#" className="w-14 h-14 bg-vitta-dark text-white rounded-2xl flex items-center justify-center hover:bg-vitta-lime hover:text-vitta-dark transition-all shadow-lg">
+                  <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-14 h-14 bg-vitta-dark text-white rounded-2xl flex items-center justify-center hover:bg-vitta-lime hover:text-vitta-dark transition-all shadow-lg">
                     <Instagram className="w-7 h-7" />
                   </a>
-                  <a href="#" className="w-14 h-14 bg-vitta-dark text-white rounded-2xl flex items-center justify-center hover:bg-vitta-lime hover:text-vitta-dark transition-all shadow-lg">
+                  <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-14 h-14 bg-vitta-dark text-white rounded-2xl flex items-center justify-center hover:bg-vitta-lime hover:text-vitta-dark transition-all shadow-lg">
                     <Facebook className="w-7 h-7" />
                   </a>
                 </div>
@@ -585,8 +729,8 @@ export default function App() {
             </div>
             
             <div className="h-[500px] rounded-[60px] overflow-hidden shadow-2xl border-[12px] border-vitta-cream">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3844.345678901234!2d-49.596789!3d-15.307890!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDE4JzI4LjQiUyA0OcKwMzUnNDguNCJX!5e0!3m2!1spt-BR!2sbr!4v1620000000000!5m2!1spt-BR!2sbr" 
+              <iframe
+                src={MAP_EMBED_URL}
                 width="100%" 
                 height="100%" 
                 style={{ border: 0 }} 
@@ -611,7 +755,7 @@ export default function App() {
                 referrerPolicy="no-referrer"
               />
               <p className="text-gray-400 max-w-sm text-lg leading-relaxed">
-                Sua melhor escolha em produtos naturais e suplementação em Ceres e região. Qualidade, confiança e saúde para você.
+                Sua melhor escolha em produtos naturais e suplementação em Florianópolis e região. Qualidade, confiança e saúde para você.
               </p>
             </div>
             <div>

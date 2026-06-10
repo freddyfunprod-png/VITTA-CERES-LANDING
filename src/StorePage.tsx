@@ -83,7 +83,7 @@ export default function StorePage({ onBack }: { onBack: () => void }) {
           Nossa <span className="text-vitta-lime">Loja Virtual</span>
         </h1>
         <p className="text-white/60 text-lg max-w-xl mx-auto">
-          Produtos naturais, suplementos e muito mais. Entregamos em Ceres e região.
+          Produtos naturais, suplementos e muito mais. Entregamos em Florianópolis e região.
         </p>
       </header>
 
@@ -185,7 +185,7 @@ export default function StorePage({ onBack }: { onBack: () => void }) {
       {/* Footer */}
       <footer className="bg-vitta-dark text-white py-10 text-center mt-10">
         <img src={LOGO_URL} alt="Vitta Ceres" className="h-14 mx-auto mb-4" />
-        <p className="text-gray-400 text-sm">Av. Bernardo Sayão, 100 — Ceres, GO &nbsp;|&nbsp; (62) 99616-1000</p>
+        <p className="text-gray-400 text-sm">Rod. José Carlos Daux, 9580 — Loja 111, Santo Antônio de Lisboa, Florianópolis - SC &nbsp;|&nbsp; (48) 99959-5099</p>
         <p className="text-gray-500 text-xs mt-3">© {new Date().getFullYear()} Vitta Ceres. Todos os direitos reservados.</p>
       </footer>
 
@@ -195,7 +195,7 @@ export default function StorePage({ onBack }: { onBack: () => void }) {
         style={{ transform: selectedProduct ? 'translateY(100%)' : 'translateY(0)' }}
       >
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-          <span className="text-white text-sm">🌿 Frete grátis acima de R$150 para Ceres e região</span>
+          <span className="text-white text-sm">🌿 Frete grátis acima de R$150 para Florianópolis e região</span>
           <a
             href={WA_GENERAL}
             target="_blank"
@@ -263,7 +263,7 @@ export default function StorePage({ onBack }: { onBack: () => void }) {
                     <Phone className="w-5 h-5" /> PEDIR VIA WHATSAPP
                   </a>
                   <p className="text-center text-xs text-gray-400 mt-4">
-                    Atendimento via WhatsApp · Entrega em Ceres e região
+                    Atendimento via WhatsApp · Entrega em Florianópolis e região
                   </p>
                 </div>
               </div>
